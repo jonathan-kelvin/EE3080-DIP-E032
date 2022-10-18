@@ -50,13 +50,12 @@ def generate_csv(path, output_dir=None, csv_name='label.csv'):
     df = pd.DataFrame(columns=['file_name', 'label'])
     real_path = os.path.join(path, 'real')
     fake_path = os.path.join(path, 'fake')
-
-    for f in os.listdir(real_path):
+    for f in tqdm(os.listdir(real_path)):
         if f.startswith('real'):
             newRow = {'file_name': f, 'label': 'real'}
-            df.append(newRow, ignore_index=True)
-    for f in os.listdir(fake_path):
+            df = df.append(newRow, ignore_index=True)
+    for f in tqdm(os.listdir(fake_path)):
         if f.startswith('fake'):
             newRow = {'file_name': f, 'label': 'fake'}
-            df.append(newRow, ignore_index=True)
+            df = df.append(newRow, ignore_index=True)
     df.to_csv(os.path.join(output_dir, csv_name))
